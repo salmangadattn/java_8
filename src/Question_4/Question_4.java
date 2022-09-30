@@ -1,21 +1,12 @@
 package Question_4;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Question_4 {
-
-    //Created custom predicate to be used by filter in employees stream
-    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
-        Map<Object, Boolean> map = new ConcurrentHashMap<>();
-        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-    }
 
     public static void main(String[] args) {
 
@@ -39,10 +30,11 @@ public class Question_4 {
         employees.add(new Employee("Raj sharma", 2000L, "Pune"));
 
 
-        employees.stream()
+        System.out.println(employees.stream()
                 .filter(employee -> employee.getSalary() < 5000L && employee.getCity().equals("delhi"))
-                .filter(distinctByKey(employee -> employee.getFullName().split(" ")[0]))
-                .forEach(System.out::println);
+                .map(e->e.getFullName().split(" ")[0])
+                .collect(Collectors.toSet()));;
+
 
     }
 
